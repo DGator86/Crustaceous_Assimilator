@@ -1,0 +1,88 @@
+# Moltbot Repository Scout Configuration
+
+# GitHub API settings
+github:
+  # GitHub API token (or set GITHUB_TOKEN environment variable)
+  token: ""
+  
+  # Search queries for discovering repositories
+  search_queries:
+    - "moltbot trading bot"
+    - "moltbot strategy"
+    - "trading bot python"
+    - "algorithmic trading bot"
+  
+  # Maximum results per query
+  max_results_per_query: 20
+
+# Repository scoring weights
+scoring:
+  # Weights for different trustworthiness factors (must sum to ~1.0)
+  weights:
+    stars: 0.3      # GitHub stars
+    age: 0.2        # Repository age
+    commits: 0.2    # Commit activity
+    license: 0.15   # License presence and type
+    activity: 0.15  # Recent activity
+  
+  # Minimum score threshold for analysis
+  min_score: 0.3
+
+# Clone settings
+cloner:
+  # Directory to clone repositories
+  clone_dir: "data/repos"
+  
+  # Git clone depth (shallow clone)
+  max_depth: 1
+  
+  # Clone timeout in seconds
+  timeout: 300
+
+# Security scanning settings
+security:
+  # Enable secret scanning
+  scan_secrets: true
+  
+  # Enable suspicious pattern scanning
+  scan_patterns: true
+  
+  # Regex patterns for detecting secrets
+  secret_patterns:
+    - '(?i)(api[_-]?key|apikey)\s*[:=]\s*[''"][a-zA-Z0-9]{20,}[''"]'
+    - '(?i)(secret|password|passwd|pwd)\s*[:=]\s*[''"][^''"]{8,}[''"]'
+    - '(?i)(token|auth)\s*[:=]\s*[''"][a-zA-Z0-9]{20,}[''"]'
+  
+  # Regex patterns for detecting suspicious code
+  suspicious_patterns:
+    - 'eval\s*\('
+    - 'exec\s*\('
+    - '__import__\s*\('
+    - 'subprocess\.'
+    - 'os\.system\s*\('
+
+# Code parsing settings
+parser:
+  # File extensions to parse
+  file_extensions:
+    - ".py"
+  
+  # Maximum file size to parse (bytes)
+  max_file_size: 1048576  # 1MB
+  
+  # Extract strategies
+  extract_strategies: true
+  
+  # Extract indicators
+  extract_indicators: true
+  
+  # Extract risk logic
+  extract_risk_logic: true
+
+# Output settings
+output:
+  # Directory for artifacts (JSON specs and docs)
+  artifacts_dir: "artifacts"
+  
+  # Index file path
+  index_file: "artifacts/index.json"
