@@ -128,6 +128,8 @@ class Config:
             path: Path to save config. If None, uses original config_path
         """
         save_path = path or self.config_path
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        dir_path = os.path.dirname(save_path)
+        if dir_path:  # Only create if there's a directory path
+            os.makedirs(dir_path, exist_ok=True)
         with open(save_path, 'w') as f:
             yaml.dump(self.config, f, default_flow_style=False)

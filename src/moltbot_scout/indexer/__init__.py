@@ -2,7 +2,7 @@
 import json
 import os
 from typing import Dict, Any, List
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class ArtifactIndexer:
@@ -31,8 +31,8 @@ class ArtifactIndexer:
         
         return {
             'version': '1.0',
-            'created_at': datetime.utcnow().isoformat(),
-            'updated_at': datetime.utcnow().isoformat(),
+            'created_at': datetime.now(timezone.utc).isoformat(),
+            'updated_at': datetime.now(timezone.utc).isoformat(),
             'repositories': [],
             'stats': {
                 'total_repositories': 0,
@@ -65,7 +65,7 @@ class ArtifactIndexer:
             'indicators_count': spec['code_analysis']['summary']['total_indicators'],
             'spec_path': spec_path,
             'doc_path': doc_path,
-            'added_at': datetime.utcnow().isoformat(),
+            'added_at': datetime.now(timezone.utc).isoformat(),
         }
         
         if existing:
@@ -90,7 +90,7 @@ class ArtifactIndexer:
             'total_indicators': sum(r['indicators_count'] for r in self.index['repositories']),
             'total_security_issues': sum(r['security_issues'] for r in self.index['repositories']),
         }
-        self.index['updated_at'] = datetime.utcnow().isoformat()
+        self.index['updated_at'] = datetime.now(timezone.utc).isoformat()
     
     def save_index(self):
         """Save index to file."""
@@ -135,7 +135,7 @@ class ArtifactIndexer:
         md = []
         
         md.append("# Moltbot Repository Scout - Index Report\n")
-        md.append(f"Generated: {datetime.utcnow().isoformat()}\n")
+        md.append(f"Generated: {datetime.now(timezone.utc).isoformat()}\n")
         
         # Stats
         md.append("## Statistics\n")

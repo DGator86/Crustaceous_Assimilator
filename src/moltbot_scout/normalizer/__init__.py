@@ -2,7 +2,7 @@
 import json
 import os
 from typing import Dict, Any, List
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class SpecNormalizer:
@@ -24,7 +24,7 @@ class SpecNormalizer:
         spec = {
             'metadata': {
                 'spec_version': '1.0',
-                'generated_at': datetime.utcnow().isoformat(),
+                'generated_at': datetime.now(timezone.utc).isoformat(),
                 'repository': {
                     'name': repo_info.get('full_name'),
                     'url': repo_info.get('url'),
